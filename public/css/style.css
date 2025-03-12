@@ -1,0 +1,52 @@
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    /* Gradient từ xám nhạt sang xanh nhạt */
+    background-attachment: fixed; /* Background cố định khi cuộn */
+}
+
+.container {
+    background-color: rgba(21, 163, 219, 0.95); /* Lớp nền trắng mờ cho nội dung */
+    border-radius: 8px; /* Bo góc nhẹ cho container */
+    padding: 20px; /* Thêm padding để đẹp hơn */
+    box-shadow: 0 4px 8px rgba(145, 22, 22, 0.1); /* Bóng nhẹ */
+}
+
+.list-group-item {
+    background-color: #ffffff; /* Nền trắng cho mỗi mục */
+    border-radius: 4px; /* Bo góc nhẹ */
+    margin-bottom: 10px; /* Khoảng cách giữa các mục */
+    transition: transform 0.2s, box-shadow 0.2s; /* Hiệu ứng mượt */
+}
+
+.list-group-item:hover {
+    transform: translateY(-2px); /* Nâng nhẹ khi hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bóng đậm hơn khi hover */
+    background-color: #f8f9fa; /* Nền xám nhạt khi hover */
+}
+
+.btn {
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px); /* Nâng nhẹ nút khi hover */
+}
+
+.navbar {
+    transition: background-color 0.3s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+.navbar-brand:hover {
+    color: #f8f9fa;
+    transform: translateY(-2px);
+}
