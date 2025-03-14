@@ -7,7 +7,7 @@
     <!-- Thông báo -->
     <?php if (isset($_SESSION['message'])): ?>
         <div class="alert alert-<?php echo $_SESSION['message_type'] == 'success' ? 'success' : 'warning'; ?> alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['message']; ?>
+            <?php echo htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8'); ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <?php unset($_SESSION['message']); unset($_SESSION['message_type']); ?>
@@ -31,19 +31,17 @@
                     <?php foreach ($cart as $id => $item): ?>
                         <tr>
                             <td>
-                                <?php if ($item['image']): ?>
+                                <?php if (!empty($item['image'])): ?>
                                     <img src="/webbanhang/<?php echo htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>" 
                                          alt="Product Image" style="max-width: 80px; border-radius: 5px;">
                                 <?php else: ?>
-                                    <span>
-                                        Không có hình
-                                    </span>
+                                    <span>Không có hình</span>
                                 <?php endif; ?>
                             </td>
                             <td><?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?></td>
                             <td><?php echo htmlspecialchars(number_format($item['price'], 0, ',', '.'), ENT_QUOTES, 'UTF-8'); ?> VNĐ</td>
                             <td>
-                                <form method="POST" action="/webbanhang/Product/updateCart" class="d-flex align-items-center">
+                                <form method="POST" action="/webbanhang/Cart/updateCart" class="d-flex align-items-center">
                                     <input type="hidden" name="id" value="<?php echo $id; ?>">
                                     <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary me-2">-</button>
                                     <input type="number" name="quantity" value="<?php echo htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>" 
@@ -53,10 +51,10 @@
                             </td>
                             <td><?php echo htmlspecialchars(number_format($item['price'] * $item['quantity'], 0, ',', '.'), ENT_QUOTES, 'UTF-8'); ?> VNĐ</td>
                             <td>
-                                <a href="/webbanhang/Product/removeFromCart/<?php echo $id; ?>" 
+                                <a href="/webbanhang/Cart/removeFromCart/<?php echo $id; ?>" 
                                    class="btn btn-danger btn-sm" 
                                    onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?');">
-                                   Xóa
+                                    Xóa
                                 </a>
                             </td>
                         </tr>
@@ -64,7 +62,6 @@
                 </tbody>
             </table>
         </div>
-        <!-- Danh sách giỏ hàng  -->
 
         <!-- Tổng giá trị giỏ hàng -->
         <?php 
@@ -86,7 +83,7 @@
     <div class="d-flex justify-content-between mt-4">
         <a href="/webbanhang/Product" class="btn btn-secondary">Quay lại</a>
         <?php if (!empty($cart)): ?>
-            <a href="/webbanhang/Product/checkout" class="btn btn-custom">Thanh toán</a>
+            <a href="/webbanhang/Order/checkout" class="btn btn-primary">Thanh toán</a>
         <?php endif; ?>
     </div>
 </div>

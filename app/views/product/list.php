@@ -63,7 +63,7 @@
                                class="btn btn-danger btn-sm" 
                                onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</a>
                         </div>
-                        <form method="POST" action="/webbanhang/Product/addToCart/<?php echo $product->id; ?>" class="m-0">
+                        <form method="POST" action="/webbanhang/Cart/addToCart/<?php echo $product->id; ?>" class="m-0">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <i class="fas fa-cart-plus me-1"></i> Thêm
                             </button>

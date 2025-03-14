@@ -46,7 +46,7 @@
     <?php endif; ?>
 
     <!-- Form thông tin thanh toán -->
-    <form method="POST" action="/webbanhang/Product/processCheckout">
+    <form method="POST" action="/webbanhang/Order/processCheckout">
         <div class="row mb-3">
             <label for="name" class="col-sm-2 col-form-label">Họ tên:</label>
             <div class="col-sm-10">
@@ -69,7 +69,7 @@
         </div>
 
         <div class="d-flex justify-content-between mt-4">
-            <a href="/webbanhang/Product/cart" class="btn btn-secondary">Quay lại</a>
+            <a href="/webbanhang/Cart/cart" class="btn btn-secondary">Quay lại</a>
             <?php if (!empty($cart)): ?>
                 <button type="submit" class="btn btn-custom" onclick="return confirm('Bạn có chắc chắn muốn thanh toán?');">Thanh toán</button>
             <?php endif; ?>

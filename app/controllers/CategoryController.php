@@ -12,6 +12,7 @@ class CategoryController {
         $this->categoryModel = new CategoryModel($this->db);
     }
 
+    #region CRUD
     public function index() {
         $categories = $this->categoryModel->getCategories();
         include 'app/views/category/list.php';
@@ -83,6 +84,7 @@ class CategoryController {
             echo "Đã xảy ra lỗi khi xóa danh mục.";
         }
     }
+    #endregion
 }
 
 ?>

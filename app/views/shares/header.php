@@ -194,7 +194,7 @@
                                 <?php endforeach; ?>
                                 <li><hr class="dropdown-divider"></li>
                                 <li class="dropdown-item">
-                                    <a href="/webbanhang/Product/cart" class="btn btn-primary btn-sm w-100">Xem giỏ hàng</a>
+                                    <a href="/webbanhang/Cart/cart" class="btn btn-primary btn-sm w-100">Xem giỏ hàng</a>
                                 </li>
                             <?php endif; ?>
                         </ul>
