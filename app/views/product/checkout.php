@@ -69,9 +69,13 @@
         </div>
 
         <div class="d-flex justify-content-between mt-4">
-            <a href="/webbanhang/Cart/cart" class="btn btn-secondary">Quay lại</a>
+            <a href="/webbanhang/Cart/cart" class="btn btn-secondary">
+                Quay lại
+            </a>
             <?php if (!empty($cart)): ?>
-                <button type="submit" class="btn btn-custom" onclick="return confirm('Bạn có chắc chắn muốn thanh toán?');">Thanh toán</button>
+                <button type="submit" class="btn btn-custom" onclick="return confirm('Bạn có chắc chắn muốn thanh toán?');">
+                    Thanh toán
+                </button>
             <?php endif; ?>
         </div>
     </form>

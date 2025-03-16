@@ -173,6 +173,13 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
                             <?php if (SessionHelper::isLoggedIn()): ?>
                                 <li><a class="dropdown-item" href="/webbanhang/account/profile">Profile</a></li>
+
+                                <?php if (SessionHelper::isUser()): ?>
+                                    <li><a class="dropdown-item" href="/webbanhang/order/orderHistory">
+                                        <i class="fas fa-history me-1"></i> Lịch sử mua hàng
+                                    </a></li>
+                                <?php endif; ?>
+
                                 <li><a class="dropdown-item" href="/webbanhang/account/logout">Logout</a></li>
                             <?php else: ?>
                                 <li><a class="dropdown-item" href="/webbanhang/account/login">Login</a></li>

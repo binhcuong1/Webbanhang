@@ -1,11 +1,17 @@
 <?php
-require_once 'app/config/database.php';
+require_once('app/config/database.php');
+require_once('app/models/AccountModel.php');
+require_once('app/models/OrderModel.php');
 
 class OrderController {
     private $db;
+    private $orderModel;
+    private $accountModel;
 
     public function __construct() {
         $this->db = (new Database())->getConnection();
+        $this->accountModel = new AccountModel($this->db);
+        $this->orderModel = new OrderModel($this->db);
     }
 
     public function checkout() {
@@ -18,6 +24,7 @@ class OrderController {
             $name = $_POST['name'];
             $phone = $_POST['phone'];
             $address = $_POST['address'];
+            $user_id = $_SESSION['user_id'];
             $cart = $_SESSION['cart'] ?? [];
 
             if (empty($cart)) {
@@ -29,11 +36,12 @@ class OrderController {
 
             $this->db->beginTransaction();
             try {
-                $query = "INSERT INTO orders (name, phone, address) VALUES (:name, :phone, :address)";
+                $query = "INSERT INTO orders (name, phone, address, user_id) VALUES (:name, :phone, :address, :user_id)";
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':phone', $phone);
                 $stmt->bindParam(':address', $address);
+                $stmt->bindParam(':user_id', $user_id);
                 $stmt->execute();
                 $order_id = $this->db->lastInsertId();
 
@@ -68,6 +76,46 @@ class OrderController {
 
     public function orderConfirmation() {
         include 'app/views/product/orderConfirmation.php';
+    }
+
+    public function orderHistory() {
+        if (!SessionHelper::isLoggedIn()) {
+            $_SESSION['message'] = "Vui lòng đăng nhập để xem lịch sử mua hàng.";
+            $_SESSION['message_type'] = "warning";
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
+        if (!SessionHelper::isUser()) {
+            $_SESSION['message'] = "Chức năng này chỉ dành cho người dùng.";
+            $_SESSION['message_type'] = "warning";
+            header('Location: /webbanhang/product');
+            exit;
+        }
+
+        $user_id = $_SESSION['user_id'];
+        $orderHistory = $this->orderModel->getOrderHistory($user_id);
+        include_once 'app/views/order/orderHistory.php';
+    }
+
+    public function orderDetail() {
+        if (!SessionHelper::isLoggedIn() || !SessionHelper::isUser()) {
+            $_SESSION['message'] = "Vui lòng đăng nhập với vai trò người dùng để xem chi tiết.";
+            $_SESSION['message_type'] = "warning";
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
+        $order_id = $_GET['order_id'] ?? null;
+        if (!$order_id) {
+            $_SESSION['message'] = "ID đơn hàng không hợp lệ.";
+            $_SESSION['message_type'] = "danger";
+            header('Location: /webbanhang/order/orderHistory');
+            exit;
+        }
+
+        $orderDetails = $this->orderModel->getOrderDetails($order_id);
+        include_once 'app/views/order/orderDetail.php';
     }
 }
 ?>
