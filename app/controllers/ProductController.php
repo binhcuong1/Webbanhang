@@ -27,64 +27,99 @@ class ProductController {
     }
 
     public function add() {
-        $categories = $this->categoryModel->getCategories();
-        include 'app/views/product/add.php';
+        if (!SessionHelper::isAdmin()) {
+            $_SESSION['message'] = 'Bạn không có quyền truy cập chức năng này!';
+            $_SESSION['message_type'] = 'danger';
+            header("Location: /webbanhang/product");
+            exit;
+        } else {
+            $categories = $this->categoryModel->getCategories();
+            include 'app/views/product/add.php';
+        }
     }
 
     public function save() {
-        $error = [];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $name = $_POST['name'] ?? '';
-            $description = $_POST['description'] ?? '';
-            $price = $_POST['price'] ?? '';
-            $category_id = $_POST['category_id'] ?? null;
-            $image = $_FILES['image']['error'] == 0 ? $this->imageUploader->upload($_FILES['image']) : '';
-
-            $result = $this->productModel->addProduct($name, $description, $price, $category_id, $image);
-            if (is_array($result)) {
-                $error = $result;
-                $categories = $this->categoryModel->getCategories();
-                include 'app/views/product/add.php';
-            } else {
-                header('Location: /webbanhang/Product');
-            }
+        if (!SessionHelper::isAdmin()) {
+            $_SESSION['message'] = 'Bạn không có quyền truy cập chức năng này!';
+            $_SESSION['message_type'] = 'danger';
+            header("Location: /webbanhang/product");
+            exit;
         } else {
-            $this->add();
+            $error = [];
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $name = $_POST['name'] ?? '';
+                $description = $_POST['description'] ?? '';
+                $price = $_POST['price'] ?? '';
+                $category_id = $_POST['category_id'] ?? null;
+                $image = $_FILES['image']['error'] == 0 ? $this->imageUploader->upload($_FILES['image']) : '';
+
+                $result = $this->productModel->addProduct($name, $description, $price, $category_id, $image);
+                if (is_array($result)) {
+                    $error = $result;
+                    $categories = $this->categoryModel->getCategories();
+                    include 'app/views/product/add.php';
+                } else {
+                    header('Location: /webbanhang/Product');
+                }
+            } else {
+                $this->add();
+            }
         }
     }
 
     public function edit($id) {
-        $product = $this->productModel->getProductById($id);
-        $categories = $this->categoryModel->getCategories();
-        if ($product) {
-            include 'app/views/product/edit.php';
+        if (!SessionHelper::isAdmin()) {
+            $_SESSION['message'] = 'Bạn không có quyền truy cập chức năng này!';
+            $_SESSION['message_type'] = 'danger';
+            header("Location: /webbanhang/product");
+            exit;
         } else {
-            echo "Không thấy sản phẩm";
+            $product = $this->productModel->getProductById($id);
+            $categories = $this->categoryModel->getCategories();
+            if ($product) {
+                include 'app/views/product/edit.php';
+            } else {
+                echo "Không thấy sản phẩm";
+            }
         }
     }
 
     public function update() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id = $_POST['id'];
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-            $price = $_POST['price'];
-            $category_id = $_POST['category_id'];
-            $image = $_FILES['image']['error'] == 0 ? $this->imageUploader->upload($_FILES['image']) : $_POST['existing_image'];
+        if (!SessionHelper::isAdmin()) {
+            $_SESSION['message'] = 'Bạn không có quyền truy cập chức năng này!';
+            $_SESSION['message_type'] = 'danger';
+            header("Location: /webbanhang/product");
+            exit;
+        } else {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $id = $_POST['id'];
+                $name = $_POST['name'];
+                $description = $_POST['description'];
+                $price = $_POST['price'];
+                $category_id = $_POST['category_id'];
+                $image = $_FILES['image']['error'] == 0 ? $this->imageUploader->upload($_FILES['image']) : $_POST['existing_image'];
 
-            if ($this->productModel->updateProduct($id, $name, $description, $price, $category_id, $image)) {
-                header('Location: /webbanhang/Product');
-            } else {
-                echo "Đã xảy ra lỗi khi lưu sản phẩm.";
+                if ($this->productModel->updateProduct($id, $name, $description, $price, $category_id, $image)) {
+                    header('Location: /webbanhang/Product');
+                } else {
+                    echo "Đã xảy ra lỗi khi lưu sản phẩm.";
+                }
             }
         }
     }
 
     public function delete($id) {
-        if ($this->productModel->deleteProduct($id)) {
-            header('Location: /webbanhang/Product');
+        if (!SessionHelper::isAdmin()) {
+            $_SESSION['message'] = 'Bạn không có quyền truy cập chức năng này!';
+            $_SESSION['message_type'] = 'danger';
+            header("Location: /webbanhang/product");
+            exit;
         } else {
-            echo "Đã xảy ra lỗi khi xóa sản phẩm.";
+            if ($this->productModel->deleteProduct($id)) {
+                header('Location: /webbanhang/Product');
+            } else {
+                echo "Đã xảy ra lỗi khi xóa sản phẩm.";
+            }
         }
     }
 

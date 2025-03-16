@@ -1,11 +1,40 @@
 <?php include 'app/views/shares/header.php'; ?>
 
-<section class="bg-danger" style="background: linear-gradient(90deg, #ff6f61, #6b48ff); height: 100vh;">
-    <div class="container-fluid py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
+<style>
+    body {
+        margin: 0; /* Loại bỏ margin mặc định */
+        background: linear-gradient(90deg, #ff6f61, #6b48ff); /* Đặt gradient cho toàn bộ trang */
+        min-height: 100vh; /* Đảm bảo chiều cao tối thiểu */
+    }
+    .card {
+        transition: transform 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    @media (max-width: 576px) {
+        .card-body {
+            padding: 2rem !important;
+        }
+        .btn-lg {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+        }
+        .form-control-lg {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+        }
+    }
+</style>
+
+<!-- Section chính, không cần background gradient nữa -->
+<section class="py-5" style="min-height: 100vh;">
+    <div class="container-fluid py-5">
+        <div class="row d-flex justify-content-center align-items-center" style="min-height: 80vh;">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card bg-dark text-white" style="border-radius: 1rem;">
                     <div class="card-body p-5 text-center">
+                        <!-- Hiển thị thông báo lỗi nếu có -->
                         <?php
                         if (isset($errors)) {
                             echo '<div class="alert alert-danger mt-3">';
@@ -18,37 +47,46 @@
                         }
                         ?>
 
-                        <h2 class="fw-bold mb-1 text-uppercase">Register</h2>
-                        <p class="text-white-50 mb-4">Please enter your registration details!</p>
+                        <form action="/webbanhang/account/save" method="post">
+                            <div>
+                                <h2 class="fw-bold mb-1 text-uppercase">Register</h2>
+                                <p class="text-white-50 mb-4">Please enter your registration details!</p>
 
-                        <form class="user" action="/webbanhang/account/save" method="post">
-                            <div class="form-outline mb-3">
-                                <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Username" required>
-                                <label class="form-label" for="username">Username</label>
-                            </div>
+                                <!-- Input Username -->
+                                <div class="form-outline mb-3">
+                                    <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Username" required>
+                                    <label class="form-label" for="username">Username</label>
+                                </div>
 
-                            <div class="form-outline mb-3">
-                                <input type="text" class="form-control form-control-lg" id="fullname" name="fullname" placeholder="Fullname" required>
-                                <label class="form-label" for="fullname">Fullname</label>
-                            </div>
+                                <!-- Input Fullname -->
+                                <div class="form-outline mb-3">
+                                    <input type="text" class="form-control form-control-lg" id="fullname" name="fullname" placeholder="Fullname" required>
+                                    <label class="form-label" for="fullname">Fullname</label>
+                                </div>
 
-                            <div class="form-outline mb-3">
-                                <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Password" required>
-                                <label class="form-label" for="password">Password</label>
-                            </div>
+                                <!-- Input Password -->
+                                <div class="form-outline mb-3">
+                                    <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Password" required>
+                                    <label class="form-label" for="password">Password</label>
+                                </div>
 
-                            <div class="form-outline mb-4">
-                                <input type="password" class="form-control form-control-lg" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" required>
-                                <label class="form-label" for="confirmpassword">Confirm Password</label>
-                            </div>
+                                <!-- Input Confirm Password -->
+                                <div class="form-outline mb-4">
+                                    <input type="password" class="form-control form-control-lg" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" required>
+                                    <label class="form-label" for="confirmpassword">Confirm Password</label>
+                                </div>
 
-                            <div class="form-group text-center">
-                                <button class="btn btn-custom btn-lg px-5" type="submit">Register</button>
-                            </div>
+                                <!-- Nút Đăng ký -->
+                                <button class="btn btn-outline-light btn-lg px-5" type="submit">Register</button>
 
-                            <div class="mt-4">
-                                <p class="mb-0">Already have an account? <a href="/webbanhang/account/login" class="text-white-50 fw-bold">Login</a></p>
-                                <p class="mt-2"><a href="/webbanhang/Product/index" class="text-white-50">Back to Home</a></p>
+                                <!-- Đăng nhập -->
+                                <div class="mt-5">
+                                    <p class="mb-0">
+                                        Already have an account? 
+                                        <a href="/webbanhang/account/login" class="text-white-50 fw-bold">Login</a>
+                                    </p>
+                                    <p class="mt-2"><a href="/webbanhang/product" class="text-white-50">Back to Home</a></p>
+                                </div>
                             </div>
                         </form>
                     </div>

@@ -2,41 +2,63 @@
 class AccountModel {
     private $conn;
     private $table_name = "users";
+
     public function __construct($db) {
         $this->conn = $db;
     }
 
     public function getAccountByUsername($username) {
-        $query = "SELECT * 
-                  FROM ". $this->table_name ."
-                  WHERE username = :username
-                  ";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE username = :username";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_OBJ);
-        return $result;
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    function save($username, $name, $password, $role="user") {
-        $query = "INSERT INTO " . $this->table_name . "(username, password, role)
-        VALUES (:username,:password, :role)";
+    public function getAccountById($id) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    function save($username, $name, $password, $role = "user") {
+        $query = "INSERT INTO " . $this->table_name . "(username, fullname, password)
+                  VALUES (:username, :fullname, :password)";
         $stmt = $this->conn->prepare($query);
 
-        // Làm sạch dữ liệu
         $name = htmlspecialchars(strip_tags($name));
         $username = htmlspecialchars(strip_tags($username));
 
-        // Gán dữ liệu vào câu lệnh
         $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':fullname', $name);
         $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':role', $role);
 
-        // Thực thi câu lệnh
-        if ($stmt->execute()) {
-            return true;
+        return $stmt->execute();
+    }
+
+    public function updateAccount($id, $data) {
+        $setClause = [];
+        $params = [':id' => $id];
+
+        if (isset($data['fullname'])) {
+            $setClause[] = "fullname = :fullname";
+            $params[':fullname'] = htmlspecialchars(strip_tags($data['fullname']));
+        }
+        if (isset($data['password'])) {
+            $setClause[] = "password = :password";
+            $params[':password'] = $data['password'];
         }
 
-        return false;
+        if (empty($setClause)) return false;
+
+        $query = "UPDATE " . $this->table_name . " SET " . implode(', ', $setClause) . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        return $stmt->execute();
     }
 }

@@ -1,6 +1,32 @@
 <?php include 'app/views/shares/header.php'; ?>
 
 <head>
+    <style>
+        body {
+            margin: 0; /* Loại bỏ margin mặc định */
+            background: linear-gradient(90deg, #ff6f61, #6b48ff); /* Đặt gradient cho toàn bộ trang */
+            min-height: 100vh; /* Đảm bảo chiều cao tối thiểu */
+        }
+        .card {
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        @media (max-width: 576px) {
+            .card-body {
+                padding: 2rem !important;
+            }
+            .btn-lg {
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+            }
+            .form-control-lg {
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
 </head>
 
 <!-- Section chính, chiếm toàn màn hình (height: 100vh) với nền gradient -->

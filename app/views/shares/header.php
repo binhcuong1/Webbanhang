@@ -12,15 +12,12 @@
         /* Tùy chỉnh badge giỏ hàng */
         .navbar-nav .badge {
             position: relative;
-            top: -5px; /* Nâng badge lên một chút để căn chỉnh với biểu tượng */
-            font-size: 12px; /* Kích thước chữ nhỏ */
+            top: -5px;
+            font-size: 12px;
         }
-
-        /* Khi hover vào biểu tượng giỏ hàng */
         .navbar-nav .nav-link:hover .fa-shopping-cart {
-            color: #fff; /* Đổi màu biểu tượng khi hover */
+            color: #fff;
         }
-
         .card {
             transition: all 0.3s ease;
         }
@@ -47,57 +44,78 @@
         }
         .search-form {
             position: relative;
-            flex-grow: 1; /* Thanh tìm kiếm mở rộng để chiếm không gian */
-            max-width: 500px; /* Giới hạn chiều rộng tối đa */
-            margin: 0 20px; /* Khoảng cách hai bên */
+            flex-grow: 1;
+            max-width: 500px;
+            margin: 0 20px;
         }
-
         .search-form .form-control {
-            padding-right: 40px; /* Để chừa chỗ cho biểu tượng kính lúp */
-            border-radius: 50px; /* Bo tròn ô nhập liệu */
-            border: 1px solid #ced4da; /* Viền nhẹ */
-            background-color: #fff; /* Màu nền trắng */
+            padding-right: 40px;
+            border-radius: 50px;
+            border: 1px solid #ced4da;
+            background-color: #fff;
         }
-
         .search-form .search-icon {
             position: absolute;
             right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            color: #6c757d; /* Màu biểu tượng */
-            pointer-events: none; /* Không cho phép nhấp vào biểu tượng */
+            color: #6c757d;
+            pointer-events: none;
         }
-
-        /* Tùy chỉnh kích thước chữ placeholder */
         .search-form .form-control::placeholder {
-            font-size: 20px; /* Giảm kích thước chữ placeholder xuống 12px */
-            color: #6c757d; /* Đảm bảo màu placeholder dễ nhìn */
+            font-size: 20px;
+            color: #6c757d;
         }
-
-        /* Đổi màu nền navbar thành biến thể đẹp hơn của danger */
         .navbar-dark {
-            background-color: #e63946; /* Tông đỏ coral, mềm mại và hiện đại hơn */
-            /* Hoặc thử: #ff4d4d (đỏ tươi nhẹ) hoặc #c0392b (đỏ gạch ấm áp) */
+            background-color: #e63946;
             background-image: linear-gradient(135deg, #e63946, #d81e3e);
+        }
+        /* Tùy chỉnh dropdown */
+        .dropdown-menu {
+            background-color: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 150px;
+        }
+        .dropdown-item {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        .dropdown-item:hover {
+            background-color: #e63946;
+            color: #fff;
+            border-radius: 4px;
+        }
+        .nav-link i {
+            margin-right: 5px;
+        }
+        /* Tùy chỉnh vị trí của giỏ hàng */
+        .navbar-nav .nav-item:last-child {
+            margin-right: -55px; /* Xích sang phải 20px */
+            margin-top: 50px; /* Xích xuống dưới 5px */
+        }
+        @media (max-width: 576px) {
+            .dropdown-menu {
+                min-width: 120px;
+                font-size: 13px;
+            }
+            .navbar-nav .nav-item:last-child {
+                margin-right: 10px; /* Giảm khoảng cách trên mobile */
+                margin-top: 3px; /* Giảm khoảng cách trên mobile */
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Tạo thanh điều hướng với các thuộc tính cơ bản
-         navbar-dark: Chủ đề tối, chữ trắng, phù hợp với nền tối
-         bg-danger: Màu nền đỏ -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
-        
-        <!-- Tạo vùng chứa cho nội dung navbar, chiếm toàn bộ chiều rộng
-            pt-1: Tạo phần đệm trên cùng nhỏ -->
         <div class="container-lg pt-1">
-
-            <!-- Tạo logo
-                navbar-brand: Định dạng tên thương hiệu với kích thước và kiểu chữ nổi bật
-                me-3: Tạo khoảng cách bên phải cho logo -->
+            <!-- Tạo logo -->
             <a class="navbar-brand" href="/webbanhang/product/"> 
-                <img src = "/webbanhang/uploads/logo-wheystore-1_1695035517.png"
-                alt="Logo quản lý sản phẩm" class="me-0" style="height: 55px;">
+                <img src="/webbanhang/uploads/logo-wheystore-1_1695035517.png" alt="Logo quản lý sản phẩm" 
+                     class="me-0" style="height: 65px;">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
@@ -105,10 +123,7 @@
                 <i class="fas fa-bars"></i>
             </button>
 
-            <!-- Chứa phần menu có thể thu gọn/mở rộng
-                collapse: làm phần tử ẩn đi ban đầu -->
             <div class="collapse navbar-collapse" id="navbarNav">
-
                 <!-- Form tìm kiếm -->
                 <form method="GET" action="/webbanhang/Product/search" class="search-form d-flex">
                     <input type="text" name="keyword" class="form-control" 
@@ -118,55 +133,52 @@
                     <i class="fas fa-search search-icon" aria-hidden="true"></i>
                 </form>
 
-                <!-- Tạo danh sách menu đẩy sang bên phải
-                    navbar-nav: Định dạng danh sách menu nằm ngang trên desktop
-                    ms-auto: Đẩy danh sách sang bên phải (margin-start-auto) -->
+                <!-- Tạo danh sách menu đẩy sang bên phải -->
                 <ul class="navbar-nav">
+                    <?php if (SessionHelper::isAdmin()): ?>
+                        <li class="nav-item">   
+                            <a class="nav-link" href="/webbanhang/Product/">Danh sách sản phẩm</a>
+                        </li>
+                    
+                        <li class="nav-item">
+                            <a class="nav-link" href="/webbanhang/Category/list">Danh sách danh mục</a>
+                        </li>
+                    <?php endif; ?>
+                    
+                    <!-- Chỉ hiển thị dropdown "Thêm mới" nếu là admin -->
+                    <?php if (SessionHelper::isAdmin()): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-plus me-1"></i> Thêm mới
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/webbanhang/Product/add">Thêm sản phẩm</a></li>
+                                <li><a class="dropdown-item" href="/webbanhang/Category/add">Thêm danh mục</a></li>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
 
-                    <!-- nav-item: Định dạng mỗi mục trong danh sách menu, đảm bảo khoảng cách và căn chỉnh -->
-                    <li class="nav-item">   
-                        <a class="nav-link" href="/webbanhang/Product/">Danh sách sản phẩm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/webbanhang/Category/list">Danh sách danh mục</a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="/webbanhang/Product/destroy">Destroy</a>
-                    </li> -->
-                    <!-- Tạo mục menu chứa dropdown
-                        dropdown: Biến mục này thành dropdown menu -->
+                    <!-- Phần kiểm tra đăng nhập/đăng xuất -->
                     <li class="nav-item dropdown">
-
-                        <!-- Tạo nút toggle cho dropdown
-                            nav-link: Định dạng như liên kết thông thường
-                            dropdown-toggle: Thêm biểu tượng mũi tên xuống và chức năng toggle
-                            data-bs-toggle="dropdown": Kích hoạt dropdown -->
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-plus me-1"></i> Thêm mới
+                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                            <?php if (SessionHelper::isLoggedIn()): ?>
+                                <?php echo htmlspecialchars($_SESSION['username']); ?>
+                            <?php else: ?>
+                                Tài khoản
+                            <?php endif; ?>
                         </a>
-
-                        <!-- Tạo danh sách thả xuống của dropdown
-                            aria-labelledby="navbarDropdown": Liên kết với ID của nút toggle, cải thiện truy cập -->
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <!-- Tạo mục trong dropdown -->
-                            <li><a class="dropdown-item" href="/webbanhang/Product/add">Thêm sản phẩm</a></li>
-                            <li><a class="dropdown-item" href="/webbanhang/Category/add">Thêm danh mục</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                            <?php if (SessionHelper::isLoggedIn()): ?>
+                                <li><a class="dropdown-item" href="/webbanhang/account/profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="/webbanhang/account/logout">Logout</a></li>
+                            <?php else: ?>
+                                <li><a class="dropdown-item" href="/webbanhang/account/login">Login</a></li>
+                                <li><a class="dropdown-item" href="/webbanhang/account/register">Register</a></li>
+                            <?php endif; ?>
                         </ul>
-
-                        <!-- Phần kiểm tra đăng nhập/đăng xuất -->
-                        <li class="nav-item">
-                            <?php if (SessionHelper::isLoggedIn()) { ?>
-                                <a class="nav-link"><?php echo $_SESSION['username']; ?></a>
-                            <?php } else { ?>
-                                <a class="nav-link" href="/webbanhang/account/login">Login</a>
-                            <?php } ?>
-                        </li>
-                        <li class="nav-item">
-                            <?php if (SessionHelper::isLoggedIn()) { ?>
-                                <a class="nav-link" href="/webbanhang/account/logout">Logout</a>
-                            <?php } ?>
-                        </li>
                     </li>
 
                     <!-- Thêm biểu tượng giỏ hàng -->

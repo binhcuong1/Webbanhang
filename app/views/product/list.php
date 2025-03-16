@@ -46,7 +46,8 @@
                             <strong>
                                 Giá:
                             </strong> 
-                            <?php echo htmlspecialchars(number_format($product->price, 0, ',', '.'), ENT_QUOTES, 'UTF-8'); ?> VNĐ
+                            <?php echo htmlspecialchars(number_format($product->price, 0, ',', '.'),
+                                 ENT_QUOTES, 'UTF-8'); ?> VNĐ
                         </p>
                         <!-- Danh mục của sản phẩm  -->
                         <p class="card-text">
@@ -57,12 +58,17 @@
                         </p>
                     </div>
                     <div class="card-footer d-flex justify-content-between flex-column flex-sm-row">
-                        <div class="mb-2 mb-sm-0">
-                            <a href="/webbanhang/Product/edit/<?php echo $product->id; ?>" class="btn btn-warning btn-sm">Sửa</a>
-                            <a href="/webbanhang/Product/delete/<?php echo $product->id; ?>" 
-                               class="btn btn-danger btn-sm" 
-                               onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</a>
-                        </div>
+                        
+                        <!-- Chỉ hiển thị nút Sửa và Xóa nếu là admin -->
+                        <?php if (SessionHelper::isAdmin()): ?>
+                            <div class="mb-2 mb-sm-0">
+                                <a href="/webbanhang/Product/edit/<?php echo $product->id; ?>" class="btn btn-warning btn-sm">Sửa</a>
+                                <a href="/webbanhang/Product/delete/<?php echo $product->id; ?>" 
+                                   class="btn btn-danger btn-sm" 
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</a>
+                            </div>
+                        <?php endif; ?>
+
                         <form method="POST" action="/webbanhang/Cart/addToCart/<?php echo $product->id; ?>" class="m-0">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <i class="fas fa-cart-plus me-1"></i> Thêm
