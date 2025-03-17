@@ -1,6 +1,8 @@
 <?php include 'app/views/shares/header.php'; ?>
 <div class="container mt-5">
-    <h1 class="text-center mb-4" style="color: #e63946; font-weight: bold;">Lịch sử mua hàng</h1>
+    <h1 class="text-center mb-4" style="color:rgb(21, 21, 21); font-weight: bold;">
+        Lịch sử mua hàng
+    </h1>
 
     <?php if (isset($_SESSION['message'])): ?>
         <div class="alert alert-<?php echo $_SESSION['message_type'] ?? 'info'; ?> alert-dismissible fade show" role="alert">
