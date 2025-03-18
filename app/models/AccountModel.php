@@ -8,12 +8,14 @@ class AccountModel {
     }
 
     public function getAccountByUsername($username) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE username = :username";
+        $query = "SELECT * 
+                  FROM " . $this->table_name . " WHERE username = :username";
+
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
-    }
+    }   
 
     public function getAccountById($id) {
         $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";

@@ -81,11 +81,11 @@
                                 </div>
 
                                 <!-- Quên mật khẩu -->
-                                <p class="small mb-5">
+                                <!-- <p class="small mb-5">
                                     <a href="#" class="text-white-50">
                                         Forgot password?
                                     </a>
-                                </p>
+                                </p> -->
 
                                 <!-- Nút Đăng nhập -->
                                 <button class="btn btn-outline-light btn-lg px-5" type="submit">

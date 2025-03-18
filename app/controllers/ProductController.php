@@ -20,12 +20,62 @@ class ProductController {
     public function index() {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $perPage = 5;
-        $products = $this->productModel->getProductsPaginated($page, $perPage);
-        $totalProducts = $this->productModel->getTotalProducts();
+        $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
+        $sort = isset($_GET['sort']) && in_array($_GET['sort'], ['asc', 'desc']) ? $_GET['sort'] : '';
+    
+        // Xây dựng truy vấn cơ bản
+        $query = "
+            SELECT p.id, p.name, p.description, p.price, p.image, c.name as category_name
+            FROM product p
+            LEFT JOIN category c ON c.id = p.category_id
+            WHERE 1=1
+        ";
+        $params = [];
+    
+        // Thêm điều kiện lọc theo category_id
+        if ($category_id) {
+            $query .= " AND p.category_id = :category_id";
+            $params[':category_id'] = $category_id;
+        }
+    
+        // Thêm sắp xếp theo giá
+        if ($sort) {
+            $query .= " ORDER BY p.price " . ($sort === 'asc' ? 'ASC' : 'DESC');
+        }
+    
+        // Thêm phân trang
+        $offset = ($page - 1) * $perPage;
+        $query .= " LIMIT :limit OFFSET :offset";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    
+        // Bind các tham số lọc
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        $stmt->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_OBJ);
+    
+        // Đếm tổng số sản phẩm để tính tổng trang (không cần sắp xếp cho đếm)
+        $countQuery = "
+            SELECT COUNT(*) 
+            FROM product p
+            WHERE 1=1
+        ";
+        if ($category_id) {
+            $countQuery .= " AND p.category_id = :category_id";
+        }
+        $countStmt = $this->db->prepare($countQuery);
+        foreach ($params as $key => $value) {
+            $countStmt->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        $countStmt->execute();
+        $totalProducts = $countStmt->fetchColumn();
+    
         $totalPages = ceil($totalProducts / $perPage);
         include 'app/views/product/list.php';
     }
-
     public function add() {
         if (!SessionHelper::isAdmin()) {
             $_SESSION['message'] = 'Bạn không có quyền truy cập chức năng này!';

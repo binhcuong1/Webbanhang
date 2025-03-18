@@ -107,6 +107,63 @@
                 margin-top: 3px; /* Giảm khoảng cách trên mobile */
             }
         }
+
+        .filter-container {
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }s
+
+    .filter-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .custom-select {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        height: 45px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        background-color: #fff;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        font-size: 15px;
+        color: #333;
+        appearance: none; /* Loại bỏ mũi tên mặc định của select */
+    }
+
+    .custom-select:focus {
+        border-color: #e63946;
+        box-shadow: 0 0 5px rgba(230, 57, 70, 0.3);
+        outline: none;
+    }
+
+    .custom-select option {
+        padding: 10px;
+    }
+
+    .d-flex.gap-3 {
+        gap: 1rem;
+    }
+
+    /* Thêm biểu tượng tùy chỉnh nếu cần (tùy chọn) */
+    .custom-select option i {
+        vertical-align: middle;
+    }
+
+    /* Thêm mũi tên tùy chỉnh cho select (tùy chọn) */
+    .filter-group::after {
+        content: '\25BC';
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #6c757d;
+        font-size: 12px;
+    }
     </style>
 </head>
 <body>

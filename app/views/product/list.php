@@ -12,10 +12,85 @@
         </div>
     <?php endif; ?>
 
+    <!-- Khu vực quảng cáo -->
+    <div class="ads-container mt-2 mb-4">
+        <div class="row g-3">
+            <!-- Banner 1:-->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="ad-card">
+                    <img src="/webbanhang/uploads/ads/daohongson.png" class="img-fluid" alt="Quảng cáo Creatine">
+                    <div class="ad-overlay">
+                        <h5>Creatine Nhai Nhựa Kéo</h5>
+                        <p>Đẹp - Bổ Quần - Nhanh Phóng Củ Đáp</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner 2:-->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="ad-card">
+                    <img src="/webbanhang/uploads/ads/d3k2.png" class="img-fluid" alt="Quảng cáo Vitamin">
+                    <div class="ad-overlay">
+                        <h5>D3-K2 hỗ trợ tiêu hóa Omega</h5>
+                        <p>Nhiều hương vị mới</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner 3:-->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="ad-card">
+                    <img src="/webbanhang/uploads/ads/omega.png" class="img-fluid" alt="Quảng cáo Vitamin">
+                    <div class="ad-overlay">
+                        <h5>Omega hộp 60 Viên</h5>
+                        <p>Mix Hỗn Tạp Bổ Mới Mẻ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Tiêu đề -->
-    <h1 class="text-center mb-4 mt-3" style="color: #e63946; font-weight: bold;">
+    <!-- <h1 class="text-center mb-4 mt-3" style="color: #e63946; font-weight: bold;">
         Danh sách sản phẩm
-    </h1>
+    </h1> -->
+
+    <!-- Lọc sản phẩm  -->
+    <form method="GET" action="/webbanhang/Product" class="d-flex align-items-center mt-3 mb-3">
+        <!-- Lọc theo loại -->
+        <select name="category_id" id="category_id" class="form-select me-2" onchange="this.form.submit()">
+            <option value="">
+                <i class = "filter me-1"></i>Lọc theo loại
+            </option>
+            <?php
+            require_once 'app/models/CategoryModel.php';
+            $categoryModel = new CategoryModel((new Database())->getConnection());
+            $categories = $categoryModel->getCategories();
+            foreach ($categories as $category) {
+                $selected = isset($_GET['category_id']) && $_GET['category_id'] == $category->id ? 'selected' : '';
+                echo "<option value='{$category->id}' {$selected}>{$category->name}</option>";
+            }
+            ?>
+        </select>
+
+        <!-- Sắp xếp theo giá -->
+        <select name="sort" id="sort" class="form-select me-2" onchange="this.form.submit()">
+            <option value="">
+                Sắp xếp giá
+            </option>
+            <option value="asc" <?php echo isset($_GET['sort']) && $_GET['sort'] == 'asc' ? 'selected' : ''; ?>>
+                ⬆ Giá thấp đến cao
+            </option>
+            <option value="desc" <?php echo isset($_GET['sort']) && $_GET['sort'] == 'desc' ? 'selected' : ''; ?>>
+                ⬇ Giá cao đến thấp
+            </option>
+        </select>
+
+        <!-- Giữ lại tham số page nếu có -->
+        <?php if (isset($_GET['page'])): ?>
+            <input type="hidden" name="page" value="<?php echo htmlspecialchars($_GET['page'], ENT_QUOTES, 'UTF-8'); ?>">
+        <?php endif; ?>
+    </form>
 
     <!-- row-cols-1: 1 cột trên màn hình nhỏ (mobile)
          row-cols-md-3: 3 cột trên màn hình từ trung bình trở lên
