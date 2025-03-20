@@ -14,6 +14,7 @@ class OrderController {
         $this->orderModel = new OrderModel($this->db);
     }
 
+    #region checkout, processCheckout, orderConfirmation
     public function checkout() {
         $cart = $_SESSION['cart'] ?? [];
         include 'app/views/product/checkout.php';
@@ -77,7 +78,9 @@ class OrderController {
     public function orderConfirmation() {
         include 'app/views/product/orderConfirmation.php';
     }
+    #endregion
 
+    #region orderHistory, orderDetail, list, adminOrderDetail
     public function orderHistory() {
         if (!SessionHelper::isLoggedIn()) {
             $_SESSION['message'] = "Vui lòng đăng nhập để xem lịch sử mua hàng.";
@@ -117,5 +120,45 @@ class OrderController {
         $orderDetails = $this->orderModel->getOrderDetails($order_id);
         include_once 'app/views/order/orderDetail.php';
     }
+
+    // Hiển thị danh sách tất cả đơn hàng (cho admin)
+    public function list() {
+        if (!SessionHelper::isAdmin()) {
+            $_SESSION['message'] = "Bạn không có quyền truy cập chức năng này.";
+            $_SESSION['message_type'] = "danger";
+            header('Location: /webbanhang/product');
+            exit;
+        }
+    
+        // Lấy tham số lọc từ query string
+        $phone = isset($_GET['phone']) ? trim($_GET['phone']) : '';
+        $date = isset($_GET['date']) ? trim($_GET['date']) : '';
+    
+        // Gọi phương thức getAllOrders với các tham số lọc
+        $orders = $this->orderModel->getAllOrders($phone, $date);
+        include 'app/views/order/list.php';
+    }
+
+    // Hiển thị chi tiết đơn hàng (cho admin)
+    public function adminOrderDetail() {
+        if (!SessionHelper::isAdmin()) {
+            $_SESSION['message'] = "Bạn không có quyền truy cập chức năng này.";
+            $_SESSION['message_type'] = "danger";
+            header('Location: /webbanhang/product');
+            exit;
+        }
+
+        $order_id = $_GET['order_id'] ?? null;
+        if (!$order_id) {
+            $_SESSION['message'] = "ID đơn hàng không hợp lệ.";
+            $_SESSION['message_type'] = "danger";
+            header('Location: /webbanhang/Order/list');
+            exit;
+        }
+
+        $orderDetails = $this->orderModel->getOrderDetails($order_id);
+        include 'app/views/order/adminOrderDetail.php';
+    }
+    #endregion
 }
 ?>

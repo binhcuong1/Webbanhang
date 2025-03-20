@@ -7,6 +7,43 @@ class OrderModel {
         $this->conn = $db;
     }
 
+    // Lấy tất cả đơn hàng (cho admin)
+    public function getAllOrders($phone = '', $date = '') {
+        $query = "
+            SELECT o.id, o.name, o.phone, o.address, o.created_at, o.user_id,
+                   SUM(od.quantity * od.price) as total_amount, 
+                   COALESCE(u.username, 'Không xác định') as username
+            FROM " . $this->table_name . " o
+            LEFT JOIN order_details od ON o.id = od.order_id
+            LEFT JOIN users u ON u.id = o.user_id
+            WHERE 1=1
+        ";
+        $params = [];
+    
+        // Lọc theo số điện thoại
+        if (!empty($phone)) {
+            $query .= " AND o.phone LIKE :phone";
+            $params[':phone'] = "%$phone%";
+        }
+    
+        // Lọc theo ngày mua hàng
+        if (!empty($date)) {
+            $query .= " AND DATE(o.created_at) = :date";
+            $params[':date'] = $date;
+        }
+    
+        $query .= " GROUP BY o.id ORDER BY o.created_at DESC";
+        $stmt = $this->conn->prepare($query);
+    
+        // Bind các tham số
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+    
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function getOrderHistory($user_id) {
         $query = "
             SELECT o.id, o.name, o.phone, o.address, o.created_at,

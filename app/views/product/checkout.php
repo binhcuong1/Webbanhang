@@ -73,7 +73,7 @@
                 Quay lại
             </a>
             <?php if (!empty($cart)): ?>
-                <button type="submit" class="btn btn-custom" onclick="return confirm('Bạn có chắc chắn muốn thanh toán?');">
+                <button type="submit" class="btn btn-custom btn-danger" onclick="return confirm('Bạn có chắc chắn muốn thanh toán?');">
                     Thanh toán
                 </button>
             <?php endif; ?>

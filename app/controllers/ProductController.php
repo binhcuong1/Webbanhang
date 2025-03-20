@@ -76,6 +76,7 @@ class ProductController {
         $totalPages = ceil($totalProducts / $perPage);
         include 'app/views/product/list.php';
     }
+    
     public function add() {
         if (!SessionHelper::isAdmin()) {
             $_SESSION['message'] = 'Bạn không có quyền truy cập chức năng này!';

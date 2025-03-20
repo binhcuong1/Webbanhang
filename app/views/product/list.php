@@ -60,7 +60,7 @@
         <!-- Lọc theo loại -->
         <select name="category_id" id="category_id" class="form-select me-2" onchange="this.form.submit()">
             <option value="">
-                <i class = "filter me-1"></i>Lọc theo loại
+                <i class = "filter me-1"></i> Lọc theo loại
             </option>
             <?php
             require_once 'app/models/CategoryModel.php';
@@ -164,7 +164,7 @@
             for ($i = 1; $i <= $totalPages; $i++): ?>
                 <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
                     <a class="page-link" 
-                       href="/webbanhang/Product/?page=<?php echo $i; ?><?php echo isset($_GET['keyword']) ? '&keyword=' . htmlspecialchars($_GET['keyword'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+                       href="/webbanhang/Product/?page=<?php echo $i; ?><?php echo isset($_GET['category_id']) ? '&category_id=' . htmlspecialchars($_GET['category_id'], ENT_QUOTES, 'UTF-8') : ''; ?><?php echo isset($_GET['sort']) ? '&sort=' . htmlspecialchars($_GET['sort'], ENT_QUOTES, 'UTF-8') : ''; ?><?php echo isset($_GET['keyword']) ? '&keyword=' . htmlspecialchars($_GET['keyword'], ENT_QUOTES, 'UTF-8') : ''; ?>">
                         <?php echo $i; ?>
                     </a>
                 </li>

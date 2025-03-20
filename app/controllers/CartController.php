@@ -40,6 +40,7 @@ class CartController {
         header('Location: /webbanhang/Product/');
     }
 
+    #region Remove Cart
     public function removeFromCart($id) {
         if (isset($_SESSION['cart'][$id])) {
             unset($_SESSION['cart'][$id]);
@@ -52,6 +53,20 @@ class CartController {
         header('Location: /webbanhang/Cart/cart'); 
         exit();
     }
+
+    public function removeFromCartList($id) {
+        if (isset($_SESSION['cart'][$id])) {
+            unset($_SESSION['cart'][$id]);
+            $_SESSION['message'] = "Sản phẩm đã được xóa khỏi giỏ hàng.";
+            $_SESSION['message_type'] = "success";
+        } else {
+            $_SESSION['message'] = "Sản phẩm không tồn tại trong giỏ hàng.";
+            $_SESSION['message_type'] = "warning";
+        }
+        header('Location: /webbanhang/Product/index'); 
+        exit();
+    }
+    #endregion
 
     public function updateCart() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

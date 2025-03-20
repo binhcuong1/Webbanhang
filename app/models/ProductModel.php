@@ -7,7 +7,8 @@ class ProductModel {
     public function __construct($db) {
         $this->conn = $db;
     }
-        
+    
+    #region CRUD
     public function getProducts() {
         $query = "
             SELECT p.id, p.name, p.description, p.price, p.image, c.name as category_name
@@ -98,7 +99,6 @@ class ProductModel {
         return false;
     }
 
-
     public function deleteProduct($id) {
         $query = "
             DELETE FROM ". $this->table_name ."
@@ -128,6 +128,7 @@ class ProductModel {
 
         return $result;
     }
+    #endregion
 
     public function getProductsPaginated($page = 1, $perPage = 5) {
         $offset = ($page - 1) * $perPage;

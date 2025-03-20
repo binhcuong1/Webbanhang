@@ -24,7 +24,7 @@
                         <th>Giá</th>
                         <th>Số lượng</th>
                         <th>Tổng</th>
-                        <th>Hành động</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
