@@ -70,18 +70,18 @@
     </div>
 
     <!-- Form lọc sản phẩm -->
-    <div class="card shadow-sm mb-4">
+    <div class="card shadow-sm mb-4 filter-container">
         <div class="card-header bg-light">
             <h5 class="mb-0 text-primary">
                 <i class="fas fa-filter me-2"></i>Lọc sản phẩm
             </h5>
         </div>
         <div class="card-body">
-            <form method="GET" action="/webbanhang/Product" class="row g-3 align-items-end">
+            <form method="GET" action="/webbanhang/Product" class="row g-2 align-items-end">
                 <!-- Lọc theo loại -->
-                <div class="col-md-4 position-relative">
+                <div class="col-md-4 col-12 position-relative">
                     <label for="category_id" class="form-label fw-medium">Loại sản phẩm</label>
-                    <div class="input-group">
+                    <div class="input-group input-group-sm">
                         <span class="input-group-text bg-white border-end-0">
                             <i class="fas fa-tags text-muted"></i>
                         </span>
@@ -101,9 +101,9 @@
                 </div>
 
                 <!-- Sắp xếp theo giá -->
-                <div class="col-md-4 position-relative">
+                <div class="col-md-4 col-12 position-relative">
                     <label for="sort" class="form-label fw-medium">Sắp xếp giá</label>
-                    <div class="input-group">
+                    <div class="input-group input-group-sm">
                         <span class="input-group-text bg-white border-end-0">
                             <i class="fas fa-sort-amount-down text-muted"></i>
                         </span>
@@ -120,13 +120,13 @@
                 </div>
 
                 <!-- Nút lọc và xóa bộ lọc -->
-                <div class="col-md-4">
+                <div class="col-md-4 col-12">
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary flex-fill">
-                            <i class="fas fa-search me-2"></i>Lọc
+                        <button type="submit" class="btn btn-primary btn-sm flex-fill">
+                            <i class="fas fa-search me-1"></i>Lọc
                         </button>
-                        <a href="/webbanhang/Product" class="btn btn-outline-secondary flex-fill">
-                            <i class="fas fa-times me-2"></i>Xóa bộ lọc
+                        <a href="/webbanhang/Product" class="btn btn-outline-secondary btn-sm flex-fill">
+                            <i class="fas fa-times me-1"></i>Xóa
                         </a>
                     </div>
                 </div>

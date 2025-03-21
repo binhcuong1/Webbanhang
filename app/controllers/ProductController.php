@@ -19,7 +19,7 @@ class ProductController {
 
     public function index() {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $perPage = 5;
+        $perPage = 10;
         $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
         $sort = isset($_GET['sort']) && in_array($_GET['sort'], ['asc', 'desc']) ? $_GET['sort'] : '';
     

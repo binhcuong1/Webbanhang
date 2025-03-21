@@ -29,6 +29,53 @@
     </div>
 </footer>
 
+<!-- Nút liên hệ tròn -->
+<div class="contact-button">
+    <button class="contact-toggle btn btn-primary rounded-circle shadow-lg">
+        <i class="fas fa-comment-alt"></i> Liên hệ
+    </button>
+</div>
+
+<!-- Popup liên hệ -->
+<div class="contact-popup" style="display: none;">
+    <div class="contact-popup-header">
+        <h5>Tư vấn đặt hàng</h5>
+        <p class="text-primary">012 345 6789</p>
+        <p>Chat với WheyStore để được tư vấn hiệu quả và giao tốt</p>
+    </div>
+    <div class="contact-options">
+        <a href="https://m.me/wheystore.official" target="_blank" class="contact-option">
+            <i class="fab fa-facebook-messenger"></i> Chat Messenger
+        </a>
+        <a href="https://zalo.me/0123456789" target="_blank" class="contact-option">
+            <i class="fas fa-comment"></i> Chat trên Zalo
+        </a>
+        <a href="tel:0919013030" class="contact-option">
+            <i class="fas fa-phone-alt"></i> 012 345 6789
+        </a>
+    </div>
+    <button class="contact-close btn btn-primary rounded-circle shadow-lg">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+
+<!-- JavaScript để xử lý hiển thị/ẩn popup -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.querySelector('.contact-toggle');
+    const closeButton = document.querySelector('.contact-close');
+    const popup = document.querySelector('.contact-popup');
+
+    toggleButton.addEventListener('click', function() {
+        popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+    });
+
+    closeButton.addEventListener('click', function() {
+        popup.style.display = 'none';
+    });
+});
+</script>
+
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>

@@ -23,6 +23,155 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Điều chỉnh kích thước chữ của nút Lọc và Xóa */
+        .filter-container .btn {
+            font-size: 0.8rem; /* Kích thước chữ, bạn có thể thay đổi giá trị này */
+        }
+
+        /* Nếu muốn áp dụng riêng cho từng nút */
+        .filter-container .btn-primary {
+            font-size: 0.8rem; /* Kích thước chữ cho nút Lọc */
+        }
+
+        .filter-container .btn-outline-secondary {
+            font-size: 0.8rem; /* Kích thước chữ cho nút Xóa */
+        }
+        
+        /* Thu nhỏ và căn trái bộ lọc */
+        .filter-container {
+            max-width: 600px; /* Giới hạn chiều rộng của bộ lọc */
+            margin-left: 0; /* Căn trái */
+            margin-right: auto; /* Đảm bảo không căn phải */
+        }
+
+        .card-header h5 {
+            font-size: 0.8rem; /* Thu nhỏ tiêu đề */
+        }
+
+        .card-body {
+            padding: 1rem; /* Giảm padding để form nhỏ gọn hơn */
+        }
+
+        .form-label {
+            font-size: 0.8rem; /* Thu nhỏ chữ label */
+        }
+
+        .input-group-sm .form-select,
+        .input-group-sm .input-group-text {
+            font-size: 0.8rem; /* Thu nhỏ chữ trong select và input-group */
+        }
+
+        /* Contact Button */
+        .contact-button {
+            position: fixed;
+            bottom: 80px; /* xích nút liên hệ lên 1 xíu  */
+            right: 15px;
+            z-index: 1000;
+        }
+        
+        .contact-toggle {
+            width: 80px; /* Tăng kích thước nút (từ 60px lên 80px) */
+            height: 80px;
+            display: flex;
+            flex-direction: column; /* Đặt hướng cột để biểu tượng và chữ xếp dọc */
+            align-items: center;
+            justify-content: center;
+            font-size: 16px; /* Giảm kích thước chữ để vừa với nút */
+            line-height: 1.2; /* Điều chỉnh khoảng cách dòng để chữ không bị cắt */
+            animation: blink 1.5s infinite;
+            padding: 5px;
+            text-align: center;
+        }
+        
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        /* Contact Popup */
+        .contact-popup {
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 15px;
+        }
+        
+        .contact-popup-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-popup-header h5 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .contact-popup-header p {
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .contact-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .contact-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .contact-option:hover {
+            background: #e9ecef;
+        }
+        
+        .contact-option i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .contact-option i.fa-facebook-messenger {
+            color: #0084ff;
+        }
+        
+        .contact-option i.fa-comment {
+            color: #0084ff;
+        }
+        
+        .contact-option i.fa-phone-alt {
+            color: #28a745;
+        }
+        
+        .contact-close {
+            position: absolute;
+            bottom: -50px;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
         /* Product Detail */
         .card-img-top {
             transition: var(--transition);
