@@ -2,7 +2,9 @@
 
 <div class="container mt-4">
     <!-- Tiêu đề -->
-    <h1 class="text-center mb-4" style="color: #e63946; font-weight: bold;">Thêm sản phẩm mới</h1>
+    <h1 class="text-center mb-5" style="color:rgb(21, 21, 21); font-weight: bold;">
+        Thêm sản phẩm mới
+    </h1>
 
     <!-- Hiển thị lỗi -->
     <?php if (!empty($error)): ?>
@@ -63,7 +65,7 @@
         </div>
 
         <div class="d-flex justify-content-between mt-4">
-            <button type="submit" class="btn btn-custom">Thêm sản phẩm</button>
+            <button type="submit" class="btn btn-custom btn-danger">Thêm sản phẩm</button>
             <a href="/webbanhang/Product/index" class="btn btn-secondary">Quay lại danh sách sản phẩm</a>
         </div>
     </form>

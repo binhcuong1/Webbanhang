@@ -23,6 +23,46 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Product Detail */
+        .card-img-top {
+            transition: var(--transition);
+        }
+        
+        .card-img-top:hover {
+            transform: scale(1.05);
+        }
+        
+        .card-title {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .card-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: var(--dark-color);
+        }
+        
+        /* Related Products */
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
         :root {
             --primary-color: #e63946;
             --primary-dark: #d81e3e;
@@ -175,6 +215,28 @@
             color: var(--primary-color);
         }
 
+        /* Category Dropdown */
+        .category-dropdown {
+            min-width: 250px;
+        }
+
+        .category-dropdown .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            font-size: 15px;
+        }
+
+        .category-dropdown .dropdown-item i {
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        .category-dropdown .dropdown-item:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
         /* Cart Dropdown */
         .cart-icon {
             position: relative;
@@ -262,6 +324,7 @@
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
+            transition: var(--transition);
         }
 
         .btn-primary:hover {
@@ -279,10 +342,10 @@
             color: white;
         }
 
-        /* Categories Menu */
+        /* Categories Menu (dòng dưới) */
         .categories-menu {
-            background-color: var(--secondary-color);
-            padding: 0;
+            background-color: var(--secondary-color); /* Màu nền giống top bar */
+            padding: 10px 0;
         }
 
         .categories-nav {
@@ -292,18 +355,20 @@
         }
 
         .category-item {
-            padding: 10px 20px;
             color: white;
-            text-decoration: none;
-            transition: var(--transition);
             font-weight: 500;
-            border-bottom: 3px solid transparent;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            text-decoration: none; /* Bỏ gạch chân */
         }
 
         .category-item:hover,
-        .category-item.active {
-            color: #fff;
-            border-bottom: 3px solid var(--primary-color);
+        .category-item:focus {
+            background-color: rgba(255, 255, 255, 0.1); /* Hiệu ứng hover giống navbar */
+            color: white;
         }
 
         /* Responsive */
@@ -316,21 +381,17 @@
             .navbar-nav {
                 margin-top: 10px;
             }
-            
+
             .categories-nav {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .category-item {
                 width: 100%;
                 text-align: center;
                 padding: 12px;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .category-item:last-child {
-                border-bottom: none;
             }
         }
 
@@ -350,6 +411,10 @@
             
             .navbar-brand img {
                 height: 50px;
+            }
+
+            .category-item {
+                font-size: 16px; /* Đảm bảo dễ đọc trên màn hình nhỏ */
             }
         }
     </style>
@@ -383,6 +448,7 @@
             </a>
 
             <!-- Navbar Toggler Button -->
+            <!-- Xử lý khi thu nhỏ màn hình  -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
                     aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
@@ -390,7 +456,7 @@
 
             <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="navbarMain">
-                <!-- Search Form -->
+                <!-- Form tìm kiếm -->
                 <form method="GET" action="/webbanhang/Product/search" class="search-form mx-lg-auto">
                     <input type="text" name="keyword" class="form-control" 
                            value="<?php echo isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword'], ENT_QUOTES, 'UTF-8') : ''; ?>" 
@@ -401,6 +467,7 @@
 
                 <!-- Main Navigation -->
                 <ul class="navbar-nav ms-auto align-items-center">
+
                     <!-- Trang chủ -->
                     <li class="nav-item">
                         <a class="nav-link <?php echo ($_SERVER['REQUEST_URI'] == '/webbanhang/product/') ? 'active' : ''; ?>" href="/webbanhang/product/">
@@ -527,39 +594,35 @@
             </div>
         </div>
     </nav>
-    
-    <!-- Script để lấy danh mục thực từ database -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Thêm code AJAX để lấy danh mục từ API nếu cần
-        // fetch('/webbanhang/api/categories')
-        //    .then(response => response.json())
-        //    .then(data => {
-        //        // Hiển thị danh mục
-        //    });
-        
-        // Xử lý dropdown cart
-        const dropdowns = document.querySelectorAll('.dropdown');
-        
-        dropdowns.forEach(dropdown => {
-            const toggle = dropdown.querySelector('.dropdown-toggle');
-            const menu = dropdown.querySelector('.dropdown-menu');
-            
-            // Hiển thị dropdown khi hover trên desktop
-            if (window.innerWidth >= 992 && !dropdown.querySelector('#userDropdown') 
-                && !dropdown.querySelector('#adminDropdown')
-                && !dropdown.querySelector('#cartDropdown') ) {
-                dropdown.addEventListener('mouseenter', function() {
-                    menu.classList.add('show');
-                });
-                
-                dropdown.addEventListener('mouseleave', function() {
-                    menu.classList.remove('show');
-                });
-            }
-        });
-    });
-    </script>
+
+    <!-- Categories Menu (dòng dưới) -->
+    <!-- <div class="categories-menu">
+        <div class="container">
+            <div class="categories-nav">
+                <div class="dropdown">
+                    <a class="category-item dropdown-toggle" href="#" id="categoryDropdown" role="button" 
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-list me-1"></i> Danh mục
+                    </a>
+                    <ul class="dropdown-menu category-dropdown" aria-labelledby="categoryDropdown">
+                        <?php
+                        require_once 'app/models/CategoryModel.php';
+                        $categoryModel = new CategoryModel((new Database())->getConnection());
+                        $categories = $categoryModel->getCategories();
+                        foreach ($categories as $category):
+                        ?>
+                            <li>
+                                <a class="dropdown-item" href="/webbanhang/Product?category_id=<?php echo $category->id; ?>">
+                                    <i class="fas fa-tag me-2"></i>
+                                    <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> -->
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

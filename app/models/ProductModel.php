@@ -24,8 +24,9 @@ class ProductModel {
 
     public function getProductByID($id) {
         $query = "
-            SELECT *
+            SELECT p.*, c.name as category_name
             FROM ". $this->table_name ." p
+            LEFT JOIN category c ON c.id = p.category_id
             WHERE p.id = :id 
         ";
 
@@ -179,6 +180,21 @@ class ProductModel {
         $stmt->bindParam(':keyword', $keyword);
         $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    // Lấy sản phẩm liên quan (cùng danh mục, trừ sản phẩm hiện tại)
+    public function getRelatedProducts($category_id, $exclude_id, $limit = 4) {
+        $query = "SELECT p.*, c.name as category_name 
+                  FROM product p 
+                  LEFT JOIN category c ON p.category_id = c.id 
+                  WHERE p.category_id = :category_id AND p.id != :exclude_id 
+                  LIMIT :limit";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
+        $stmt->bindParam(':exclude_id', $exclude_id, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }

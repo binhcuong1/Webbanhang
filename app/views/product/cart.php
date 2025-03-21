@@ -2,7 +2,9 @@
 
 <div class="container mt-4">
     <!-- Tiêu đề -->
-    <h1 class="text-center mb-4" style="color: #e63946; font-weight: bold;">Giỏ hàng</h1>
+    <h1 class="text-center mb-5" style="color:rgb(21, 21, 21); font-weight: bold;">
+        Giỏ hàng
+    </h1>
 
     <!-- Thông báo -->
     <?php if (isset($_SESSION['message'])): ?>

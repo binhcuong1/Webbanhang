@@ -176,11 +176,18 @@ class ProductController {
 
     public function show($id) {
         $product = $this->productModel->getProductById($id);
-        if ($product) {
-            include 'app/views/product/show.php';
-        } else {
-            echo "Không thấy sản phẩm.";
+
+        if (!$product) {
+            $_SESSION['message'] = 'Sản phẩm không tồn tại.';
+            $_SESSION['message_type'] = 'danger';
+            header('Location: /webbanhang/Product');
+            exit();
         }
+
+        // Lấy sản phẩm liên quan (cùng danh mục, trừ sản phẩm hiện tại)
+        $relatedProducts = $this->productModel->getRelatedProducts($product->category_id, $id, 4);
+
+        include 'app/views/product/show.php';
     }
 
     public function search() {

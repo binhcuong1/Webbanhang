@@ -2,13 +2,13 @@
 
 <div class="container mt-4">
     <!-- Tiêu đề -->
-    <h1 class="text-center mb-4 mt-3" style="color: #e63946; font-weight: bold;">
+    <h1 class="text-center mb-5" style="color:rgb(21, 21, 21); font-weight: bold;">
         Danh sách danh mục
     </h1>
 
     <!-- Nút thêm mới -->
     <div class="text-end mb-4">
-        <a href="/webbanhang/Category/add" class="btn btn-custom">Thêm danh mục mới</a>
+        <a href="/webbanhang/Category/add" class="btn btn-custom btn-primary">Thêm danh mục mới</a>
     </div>
 
     <!-- Danh sách danh mục -->

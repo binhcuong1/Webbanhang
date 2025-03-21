@@ -2,7 +2,9 @@
 
 <div class="container mt-4">
     <!-- Tiêu đề -->
-    <h1 class="text-center mb-4" style="color: #e63946; font-weight: bold;">Thêm danh mục mới</h1>
+    <h1 class="text-center mb-5" style="color:rgb(21, 21, 21); font-weight: bold;">
+        Thêm danh mục mới
+    </h1>
 
     <!-- Hiển thị lỗi -->
     <?php if (!empty($error)): ?>
@@ -34,7 +36,7 @@
         </div>
 
         <div class="d-flex justify-content-between mt-4">
-            <button type="submit" class="btn btn-custom">Thêm danh mục</button>
+            <button type="submit" class="btn btn-custom btn-danger">Thêm danh mục</button>
             <a href="/webbanhang/Category/index" class="btn btn-secondary">Quay lại danh sách danh mục</a>
         </div>
     </form>
