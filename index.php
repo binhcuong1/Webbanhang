@@ -4,9 +4,9 @@ session_start();
 // Require các file cần thiết
 require_once 'app/models/ProductModel.php';
 require_once 'app/helpers/SessionHelper.php';
-
 require_once 'app/controllers/ProductApiController.php';
 require_once 'app/controllers/CategoryApiController.php';
+require_once 'app/controllers/UserController.php'; // Thêm UserController
 
 // Lấy và xử lý URL
 $url = $_GET['url'] ?? '';
@@ -82,8 +82,35 @@ if (file_exists($controllerPath)) {
 }
 
 // Kiểm tra và gọi action cho yêu cầu web
-if (method_exists($controller, $action)) {
-    call_user_func_array([$controller, $action], array_slice($url, 2));
+if ($controllerName === 'UserController') {
+    // Định tuyến cho UserController
+    switch ($action) {
+        case 'manageRoles':
+            $controller->manageRoles();
+            break;
+        case 'updateRole':
+            if ($id) {
+                $controller->updateRole($id);
+            } else {
+                die('User ID is required for updateRole action');
+            }
+            break;
+        case 'roleLog':
+            $controller->roleLog();
+            break;
+        default:
+            if (method_exists($controller, $action)) {
+                call_user_func_array([$controller, $action], array_slice($url, 2));
+            } else {
+                die('Action not found');
+            }
+            break;
+    }
 } else {
-    die('Action not found');
+    // Định tuyến cho các controller khác
+    if (method_exists($controller, $action)) {
+        call_user_func_array([$controller, $action], array_slice($url, 2));
+    } else {
+        die('Action not found');
+    }
 }

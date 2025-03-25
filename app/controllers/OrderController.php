@@ -16,12 +16,21 @@ class OrderController {
 
     #region checkout, processCheckout, orderConfirmation
     public function checkout() {
-        $cart = $_SESSION['cart'] ?? [];
-        include 'app/views/product/checkout.php';
+        // Kiểm tra nếu người dùng chưa đăng nhập
+        if (!SessionHelper::isLoggedIn()) {
+            $_SESSION['message'] = "Bạn cần đăng nhập để thanh toán.";
+            $_SESSION['message_type'] = "warning";
+            include 'app/views/product/cart.php';
+            exit();
+        } else {
+            $cart = $_SESSION['cart'] ?? [];
+            include 'app/views/product/checkout.php';
+        }
     }
 
     public function processCheckout() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {     
+
             $name = $_POST['name'];
             $phone = $_POST['phone'];
             $address = $_POST['address'];

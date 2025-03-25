@@ -72,4 +72,24 @@ class OrderModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    // Phương thức mới: Lấy đơn hàng ngẫu nhiên của người dùng khác
+    public function getRandomOrders($exclude_user_id, $limit = 3) {
+        $query = "
+            SELECT o.id, o.name, o.phone, o.address, o.created_at,
+                   SUM(od.quantity * od.price) as total_amount
+            FROM " . $this->table_name . " o
+            LEFT JOIN order_details od ON o.id = od.order_id
+            WHERE o.user_id != :exclude_user_id
+            GROUP BY o.id
+            ORDER BY RAND()
+            LIMIT :limit
+        ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':exclude_user_id', $exclude_user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }

@@ -1,7 +1,7 @@
 <?php include 'app/views/shares/header.php'; ?>
 <div class="container mt-5">
     <h1 class="text-center mb-5" style="color:rgb(21, 21, 21); font-weight: bold;">
-        Quản lý đơn hàng
+        Lịch sử đơn hàng
     </h1>
 
     <?php if (isset($_SESSION['message'])): ?>

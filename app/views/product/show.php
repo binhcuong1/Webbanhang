@@ -80,21 +80,23 @@
                 <?php foreach ($relatedProducts as $relatedProduct): ?>
                     <div class="col">
                         <div class="card h-100 shadow-lg">
-                            <img src="/webbanhang/<?php echo htmlspecialchars($relatedProduct->image, ENT_QUOTES, 'UTF-8'); ?>" 
-                                 class="card-img-top" 
-                                 alt="<?php echo htmlspecialchars($relatedProduct->name, ENT_QUOTES, 'UTF-8'); ?>" 
-                                 style="height: 200px; object-fit: contain;">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <a href="/webbanhang/Product/show/<?php echo $relatedProduct->id; ?>" 
-                                       class="text-decoration-none text-dark">
-                                        <?php echo htmlspecialchars($relatedProduct->name, ENT_QUOTES, 'UTF-8'); ?>
-                                    </a>
-                                </h5>
-                                <p class="card-text text-danger">
-                                    <strong>Giá:</strong> <?php echo number_format($relatedProduct->price, 0, ',', '.'); ?> VNĐ
-                                </p>
-                            </div>
+                            <a href="/webbanhang/Product/show/<?php echo $relatedProduct->id; ?>">
+                                <img src="/webbanhang/<?php echo htmlspecialchars($relatedProduct->image, ENT_QUOTES, 'UTF-8'); ?>" 
+                                     class="card-img-top" 
+                                     alt="<?php echo htmlspecialchars($relatedProduct->name, ENT_QUOTES, 'UTF-8'); ?>" 
+                                     style="height: 200px; object-fit: contain;">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a href="/webbanhang/Product/show/<?php echo $relatedProduct->id; ?>" 
+                                           class="text-decoration-none text-dark">
+                                            <?php echo htmlspecialchars($relatedProduct->name, ENT_QUOTES, 'UTF-8'); ?>
+                                        </a>
+                                    </h5>
+                                    <p class="card-text text-danger">
+                                        <strong>Giá:</strong> <?php echo number_format($relatedProduct->price, 0, ',', '.'); ?> VNĐ
+                                    </p>
+                                </div>
+                            </a>    
                             <div class="card-footer d-flex justify-content-between">
                                 <form method="POST" action="/webbanhang/Cart/addToCart/<?php echo $relatedProduct->id; ?>" class="m-0">
                                     <button type="submit" class="btn btn-primary btn-sm">

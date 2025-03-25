@@ -152,7 +152,7 @@ class ProductModel {
         $stmt->execute();
         return $stmt->fetchColumn();
     }
-
+    
     public function countSearchProducts($keyword) {
         $query = "
             SELECT COUNT(*) 

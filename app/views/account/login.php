@@ -29,6 +29,18 @@
     </style>
 </head>
 
+<!-- Hiển thị thông báo -->
+<?php if (isset($_SESSION['message'])): ?>
+        <div class="alert alert-<?php echo $_SESSION['message_type'] ?? 'info'; ?> alert-dismissible fade show" role="alert">
+            <?php 
+                echo htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8'); 
+                unset($_SESSION['message']); // Xóa thông báo sau khi hiển thị
+                unset($_SESSION['message_type']);
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+    
 <!-- Section chính, chiếm toàn màn hình (height: 100vh) với nền gradient -->
 <!-- vh-100: Chiều cao bằng 100% chiều cao viewport (màn hình)  -->
 <section class="bg-danger" style="background: linear-gradient(90deg, #ff6f61, #6b48ff);">
@@ -66,26 +78,21 @@
 
                                 <!-- Input Username -->
                                 <div class="form-outline mb-3">
-                                    <input type="text" name="username" class="form-control" id="typeEmailX" />
-                                    <label class="form-label" for="typeEmailX">
-                                        Username
-                                    </label>
+                                    <input type="text" name="username" class="form-control" id="typeEmailX" placeholder="Username"/>
+                                    
                                 </div>
 
                                 <!-- Input Password -->
                                 <div class="form-outline mb-4">
-                                    <input type="password" name="password" class="form-control" id="typePasswordX" />
-                                    <label class="form-label" for="typePasswordX">
-                                        Password
-                                    </label>
+                                    <input type="password" name="password" class="form-control" id="typePasswordX" placeholder="Password"/>
                                 </div>
 
                                 <!-- Quên mật khẩu -->
-                                <!-- <p class="small mb-5">
-                                    <a href="#" class="text-white-50">
+                                <p class="small mb-5">
+                                    <a href="/webbanhang/account/forgotPassword" class="text-white-50">
                                         Forgot password?
                                     </a>
-                                </p> -->
+                                </p>
 
                                 <!-- Nút Đăng nhập -->
                                 <button class="btn btn-outline-light btn-lg px-5" type="submit">

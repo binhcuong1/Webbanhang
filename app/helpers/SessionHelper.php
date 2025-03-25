@@ -9,6 +9,10 @@ class SessionHelper {
     }
 
     public static function isUser() {
-        return self::isLoggedIn() && !isset($_SESSION['role']);
+        return self::isLoggedIn() && isset($_SESSION['role']) && $_SESSION['role'] === 'customer';
+    }
+
+    public static function getUserId() {
+        return isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
     }
 }

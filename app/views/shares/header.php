@@ -632,15 +632,18 @@
                     </li> -->
 
                     <!-- Admin Section -->
-                    <?php if (SessionHelper::isAdmin()): ?>
+                    <!-- <?php if (SessionHelper::isAdmin()): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" 
                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-cogs me-1"></i> Quản lý
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                                <li><a class="dropdown-item" href="/webbanhang/Product/"><i class="fas fa-list"></i> Danh sách sản phẩm</a></li>
+                                <li><a class="dropdown-item" href="/webbanhang/ lýlýProduct/"><i class="fas fa-list"></i> Danh sách sản phẩm</a></li>
                                 <li><a class="dropdown-item" href="/webbanhang/Category/list"><i class="fas fa-tags"></i> Danh sách danh mục</a></li>
+                                <li><a class="dropdown-item" href="/webbanhang/User/manageRoles"><i class="fas fa-user-shield"></i> 
+                                    Quản lý phân quyền</a>
+                                </li>
                                 <li><a class="dropdown-item" href="/webbanhang/Order/list"><i class="fas fa-shopping-bag"></i> 
                                     Quản lý đơn hàng</a>
                                 </li>
@@ -649,7 +652,7 @@
                                 <li><a class="dropdown-item" href="/webbanhang/Category/add"><i class="fas fa-folder-plus"></i> Thêm danh mục</a></li>
                             </ul>
                         </li>
-                    <?php endif; ?>
+                    <?php endif; ?> -->
 
                     <!-- User Account -->
                     <li class="nav-item dropdown">

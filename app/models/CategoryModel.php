@@ -36,6 +36,17 @@ class CategoryModel {
         return $result;
     }
 
+    public function getTotalCategories() {
+        $query = "
+            SELECT COUNT(*) 
+            FROM category
+            WHERE description NOT LIKE 'deleted'
+            ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+
     public function addCategory($name, $description) {
         $error = [];
 

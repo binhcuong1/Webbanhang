@@ -55,25 +55,21 @@
                                 <!-- Input Username -->
                                 <div class="form-outline mb-3">
                                     <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Username" required>
-                                    <label class="form-label" for="username">Username</label>
                                 </div>
 
                                 <!-- Input Fullname -->
                                 <div class="form-outline mb-3">
                                     <input type="text" class="form-control form-control-lg" id="fullname" name="fullname" placeholder="Fullname" required>
-                                    <label class="form-label" for="fullname">Fullname</label>
                                 </div>
 
                                 <!-- Input Password -->
                                 <div class="form-outline mb-3">
                                     <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Password" required>
-                                    <label class="form-label" for="password">Password</label>
                                 </div>
 
                                 <!-- Input Confirm Password -->
                                 <div class="form-outline mb-4">
                                     <input type="password" class="form-control form-control-lg" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" required>
-                                    <label class="form-label" for="confirmpassword">Confirm Password</label>
                                 </div>
 
                                 <!-- Nút Đăng ký -->
