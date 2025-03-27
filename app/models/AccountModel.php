@@ -25,9 +25,9 @@ class AccountModel {
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    function save($username, $name, $password, $role = "user") {
-        $query = "INSERT INTO " . $this->table_name . "(username, fullname, password)
-                  VALUES (:username, :fullname, :password)";
+    function save($username, $name, $password) {
+        $query = "INSERT INTO " . $this->table_name . "(username, fullname, password, role)
+                  VALUES (:username, :fullname, :password, 'customer')";
         $stmt = $this->conn->prepare($query);
 
         $name = htmlspecialchars(strip_tags($name));
