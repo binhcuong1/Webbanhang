@@ -106,6 +106,20 @@ if ($controllerName === 'UserController') {
             }
             break;
     }
+} elseif ($controllerName === 'ProductController') {
+    // Định tuyến cho ProductController
+    switch ($action) {
+        case 'addReview':
+            $controller->addReview();
+            break;
+        default:
+            if (method_exists($controller, $action)) {
+                call_user_func_array([$controller, $action], array_slice($url, 2));
+            } else {
+                die('Action not found');
+            }
+            break;
+    }
 } else {
     // Định tuyến cho các controller khác
     if (method_exists($controller, $action)) {
@@ -113,4 +127,4 @@ if ($controllerName === 'UserController') {
     } else {
         die('Action not found');
     }
-}
+} 

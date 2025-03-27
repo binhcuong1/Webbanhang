@@ -76,6 +76,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<!-- Nút Back to Top -->
+<button class="back-to-top" onclick="scrollToTop()" title="Quay lại đầu trang">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+// Hiển thị nút Back to Top
+window.addEventListener('scroll', function() {
+    const backToTop = document.querySelector('.back-to-top');
+    if (window.scrollY > 300) {
+        backToTop.classList.add('show');
+    } else {
+        backToTop.classList.remove('show');
+    }
+});
+
+// Cuộn mượt mà lên đầu trang
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>

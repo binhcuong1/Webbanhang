@@ -23,6 +23,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Nút Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 170px; /* Đặt trên nút liên hệ (nút liên hệ ở 80px + 10px khoảng cách) */
+            right: 15px;
+            display: none;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+        }
+        .back-to-top.show {
+            display: block;
+        }
+
+        /* Chỉ thêm CSS tối thiểu để tránh xung đột */
+        .ui-autocomplete {
+            z-index: 1000 !important; /* Đảm bảo danh sách gợi ý hiển thị trên các phần tử khác */
+        }
+
         /* Điều chỉnh kích thước chữ của nút Lọc và Xóa */
         .filter-container .btn {
             font-size: 0.8rem; /* Kích thước chữ, bạn có thể thay đổi giá trị này */
@@ -173,6 +201,13 @@
         }
 
         /* Product Detail */
+        .card {
+            transition: var(--transition);
+        }
+        .card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Thêm bóng nhẹ khi hover */
+        }
+        
         .card-img-top {
             transition: var(--transition);
         }
@@ -184,11 +219,16 @@
         .card-title {
             font-size: 28px;
             font-weight: 700;
+            transition: var(--transition);
         }
         
         .card-text {
             font-size: 16px;
             margin-bottom: 10px;
+        }
+
+        .card:hover .card-title {
+            color: var(--primary-color); /* Đổi màu tiêu đề khi hover */
         }
         
         .breadcrumb {
@@ -569,7 +609,7 @@
     </style>
 </head>
 <body>
-    <!-- Top Bar -->
+    <!-- Top Bar --> 
     <div class="top-bar d-none d-md-block">
         <div class="container">
             <div class="row align-items-center">
@@ -623,36 +663,6 @@
                             <i class="fas fa-home me-1"></i> Trang chủ
                         </a>
                     </li>
-
-                    <!-- Sản phẩm -->
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="/webbanhang/Product/collection/all">
-                            <i class="fas fa-box-open me-1"></i> Sản phẩm
-                        </a>
-                    </li> -->
-
-                    <!-- Admin Section -->
-                    <!-- <?php if (SessionHelper::isAdmin()): ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" 
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-cogs me-1"></i> Quản lý
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                                <li><a class="dropdown-item" href="/webbanhang/ lýlýProduct/"><i class="fas fa-list"></i> Danh sách sản phẩm</a></li>
-                                <li><a class="dropdown-item" href="/webbanhang/Category/list"><i class="fas fa-tags"></i> Danh sách danh mục</a></li>
-                                <li><a class="dropdown-item" href="/webbanhang/User/manageRoles"><i class="fas fa-user-shield"></i> 
-                                    Quản lý phân quyền</a>
-                                </li>
-                                <li><a class="dropdown-item" href="/webbanhang/Order/list"><i class="fas fa-shopping-bag"></i> 
-                                    Quản lý đơn hàng</a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/webbanhang/Product/add"><i class="fas fa-plus-circle"></i> Thêm sản phẩm</a></li>
-                                <li><a class="dropdown-item" href="/webbanhang/Category/add"><i class="fas fa-folder-plus"></i> Thêm danh mục</a></li>
-                            </ul>
-                        </li>
-                    <?php endif; ?> -->
 
                     <!-- User Account -->
                     <li class="nav-item dropdown">
@@ -745,36 +755,7 @@
                 </ul>
             </div>
         </div>
-    </nav>
-
-    <!-- Categories Menu (dòng dưới) -->
-    <!-- <div class="categories-menu">
-        <div class="container">
-            <div class="categories-nav">
-                <div class="dropdown">
-                    <a class="category-item dropdown-toggle" href="#" id="categoryDropdown" role="button" 
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-list me-1"></i> Danh mục
-                    </a>
-                    <ul class="dropdown-menu category-dropdown" aria-labelledby="categoryDropdown">
-                        <?php
-                        require_once 'app/models/CategoryModel.php';
-                        $categoryModel = new CategoryModel((new Database())->getConnection());
-                        $categories = $categoryModel->getCategories();
-                        foreach ($categories as $category):
-                        ?>
-                            <li>
-                                <a class="dropdown-item" href="/webbanhang/Product?category_id=<?php echo $category->id; ?>">
-                                    <i class="fas fa-tag me-2"></i>
-                                    <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div> -->
+    </nav>  
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

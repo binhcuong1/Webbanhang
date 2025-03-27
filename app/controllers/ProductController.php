@@ -36,10 +36,12 @@ class ProductController {
             $perPage = 10;
             $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
             $sort = isset($_GET['sort']) && in_array($_GET['sort'], ['asc', 'desc']) ? $_GET['sort'] : '';
+            $rating = isset($_GET['rating']) && in_array($_GET['rating'], ['1', '2', '3', '4', '5']) ? (int)$_GET['rating'] : null;
 
             // Xây dựng truy vấn cơ bản
             $query = "
-                SELECT p.id, p.name, p.description, p.price, p.image, c.name as category_name
+                SELECT p.id, p.name, p.description, p.price, p.image, c.name as category_name,
+                       COALESCE((SELECT AVG(rating) FROM reviews r WHERE r.product_id = p.id), 0) as average_rating
                 FROM product p
                 LEFT JOIN category c ON c.id = p.category_id
                 WHERE 1=1
@@ -51,34 +53,48 @@ class ProductController {
                 $query .= " AND p.category_id = :category_id";
                 $params[':category_id'] = $category_id;
             }
-
+        
+            // Thêm điều kiện lọc theo đánh giá trung bình (chính xác bằng giá trị rating)
+            if ($rating !== null) {
+                $query .= " HAVING average_rating = :rating";
+                $params[':rating'] = $rating;
+            }
+        
             // Thêm sắp xếp theo giá
             if ($sort) {
                 $query .= " ORDER BY p.price " . ($sort === 'asc' ? 'ASC' : 'DESC');
             }
-
+        
             // Thêm phân trang
             $offset = ($page - 1) * $perPage;
             $query .= " LIMIT :limit OFFSET :offset";
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
             $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-
+        
             // Bind các tham số lọc
             foreach ($params as $key => $value) {
-                $stmt->bindValue($key, $value, PDO::PARAM_INT);
+                if ($key === ':rating') {
+                    $stmt->bindValue($key, $value, PDO::PARAM_INT);
+                } else {
+                    $stmt->bindValue($key, $value, PDO::PARAM_INT);
+                }
             }
             $stmt->execute();
             $products = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+        
             // Đếm tổng số sản phẩm để tính tổng trang
             $countQuery = "
                 SELECT COUNT(*) 
                 FROM product p
+                LEFT JOIN category c ON c.id = p.category_id
                 WHERE 1=1
             ";
             if ($category_id) {
                 $countQuery .= " AND p.category_id = :category_id";
+            }
+            if ($rating !== null) {
+                $countQuery .= " AND COALESCE((SELECT AVG(rating) FROM reviews r WHERE r.product_id = p.id), 0) = :rating";
             }
             $countStmt = $this->db->prepare($countQuery);
             foreach ($params as $key => $value) {
@@ -86,12 +102,12 @@ class ProductController {
             }
             $countStmt->execute();
             $totalProducts = $countStmt->fetchColumn();
-
+        
             $totalPages = ceil($totalProducts / $perPage);
-
+        
             // Lấy danh sách danh mục để hiển thị trong bộ lọc
             $categories = $this->categoryModel->getCategories();
-
+        
             // Hiển thị danh sách sản phẩm cho người dùng
             include 'app/views/product/list.php';
         }
@@ -103,49 +119,65 @@ class ProductController {
         $perPage = 10;
         $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
         $sort = isset($_GET['sort']) && in_array($_GET['sort'], ['asc', 'desc']) ? $_GET['sort'] : '';
-
+        $rating = isset($_GET['rating']) && in_array($_GET['rating'], ['1', '2', '3', '4', '5']) ? (int)$_GET['rating'] : null;
+        
         // Xây dựng truy vấn cơ bản
         $query = "
-            SELECT p.id, p.name, p.description, p.price, p.image, c.name as category_name
+            SELECT p.id, p.name, p.description, p.price, p.image, c.name as category_name,
+                   COALESCE((SELECT AVG(rating) FROM reviews r WHERE r.product_id = p.id), 0) as average_rating
             FROM product p
             LEFT JOIN category c ON c.id = p.category_id
             WHERE 1=1
         ";
         $params = [];
-
+        
         // Thêm điều kiện lọc theo category_id
         if ($category_id) {
             $query .= " AND p.category_id = :category_id";
             $params[':category_id'] = $category_id;
         }
-
+    
+        // Thêm điều kiện lọc theo đánh giá trung bình (chính xác bằng giá trị rating)
+        if ($rating !== null) {
+            $query .= " HAVING average_rating = :rating";
+            $params[':rating'] = $rating;
+        }
+    
         // Thêm sắp xếp theo giá
         if ($sort) {
             $query .= " ORDER BY p.price " . ($sort === 'asc' ? 'ASC' : 'DESC');
         }
-
+    
         // Thêm phân trang
         $offset = ($page - 1) * $perPage;
         $query .= " LIMIT :limit OFFSET :offset";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-
+    
         // Bind các tham số lọc
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value, PDO::PARAM_INT);
+            if ($key === ':rating') {
+                $stmt->bindValue($key, $value, PDO::PARAM_INT);
+            } else {
+                $stmt->bindValue($key, $value, PDO::PARAM_INT);
+            }
         }
         $stmt->execute();
         $products = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+    
         // Đếm tổng số sản phẩm để tính tổng trang
         $countQuery = "
             SELECT COUNT(*) 
             FROM product p
+            LEFT JOIN category c ON c.id = p.category_id
             WHERE 1=1
         ";
         if ($category_id) {
             $countQuery .= " AND p.category_id = :category_id";
+        }
+        if ($rating !== null) {
+            $countQuery .= " AND COALESCE((SELECT AVG(rating) FROM reviews r WHERE r.product_id = p.id), 0) = :rating";
         }
         $countStmt = $this->db->prepare($countQuery);
         foreach ($params as $key => $value) {
@@ -153,12 +185,12 @@ class ProductController {
         }
         $countStmt->execute();
         $totalProducts = $countStmt->fetchColumn();
-
+    
         $totalPages = ceil($totalProducts / $perPage);
-
+    
         // Lấy danh sách danh mục để hiển thị trong bộ lọc
         $categories = $this->categoryModel->getCategories();
-
+    
         // Hiển thị danh sách sản phẩm cho người dùng
         include 'app/views/product/list.php';
     }
@@ -290,5 +322,84 @@ class ProductController {
         $totalPages = ceil($totalProducts / $perPage);
         include 'app/views/product/list.php';
     }
+
+    #region Đánh giá sản phẩm: addReview, getReviews, getAverageRating
+    // Thêm đánh giá mới
+    public function addReview() {
+        // Kiểm tra người dùng đã đăng nhập chưa
+        if (!SessionHelper::isLoggedIn()) {
+            $_SESSION['message'] = "Vui lòng đăng nhập để đánh giá sản phẩm.";
+            $_SESSION['message_type'] = "warning";
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
+        // Xử lý khi form được gửi
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $product_id = $_POST['product_id'] ?? null;
+            $user_id = $_SESSION['user_id'];
+            $rating = $_POST['rating'] ?? null;
+            $comment = $_POST['comment'] ?? '';
+
+            // Kiểm tra dữ liệu đầu vào
+            if (!$product_id || !$rating || !in_array($rating, [1, 2, 3, 4, 5])) {
+                $_SESSION['message'] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
+                $_SESSION['message_type'] = "danger";
+                header('Location: /webbanhang/Product/show/' . $product_id);
+                exit;
+            }
+
+            // Thêm đánh giá vào cơ sở dữ liệu
+            $query = "INSERT INTO reviews (product_id, user_id, rating, comment) 
+                      VALUES (:product_id, :user_id, :rating, :comment)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+            $stmt->bindParam(':comment', $comment, PDO::PARAM_STR);
+
+            if ($stmt->execute()) {
+                $_SESSION['message'] = "Đánh giá của bạn đã được gửi thành công.";
+                $_SESSION['message_type'] = "success";
+            } else {
+                $_SESSION['message'] = "Có lỗi xảy ra khi gửi đánh giá. Vui lòng thử lại.";
+                $_SESSION['message_type'] = "danger";
+            }
+
+            // Chuyển hướng về trang chi tiết sản phẩm
+            header('Location: /webbanhang/Product/show/' . $product_id);
+            exit;
+        }
+    }
+
+    // Lấy danh sách đánh giá của một sản phẩm
+    public function getReviews($product_id) {
+        $query = "SELECT r.*, u.username 
+                  FROM reviews r 
+                  JOIN users u ON r.user_id = u.id 
+                  WHERE r.product_id = :product_id 
+                  ORDER BY r.created_at DESC";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getAverageRating($product_id) {
+        $query = "SELECT AVG(rating) as average_rating 
+                  FROM reviews 
+                  WHERE product_id = :product_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_OBJ);
+
+        if ($result->average_rating === null) {
+            return 0; // Trả về 0 nếu không có đánh giá
+        }
+        
+        return round($result->average_rating, 1);
+    }
+    #endregion
 }
 ?>

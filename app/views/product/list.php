@@ -100,6 +100,24 @@
                     </div>
                 </div>
 
+                <!-- Lọc theo đánh giá trung bình -->
+                <div class="col-md-3 col-12 position-relative">
+                    <label for="rating" class="form-label fw-medium">Đánh giá trung bình</label>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-star text-muted"></i>
+                        </span>
+                        <select name="rating" id="rating" class="form-select border-start-0">
+                            <option value="">Tất cả đánh giá</option>
+                            <option value="1" <?php echo isset($_GET['rating']) && $_GET['rating'] == '1' ? 'selected' : ''; ?>>1 sao</option>
+                            <option value="2" <?php echo isset($_GET['rating']) && $_GET['rating'] == '2' ? 'selected' : ''; ?>>2 sao</option>
+                            <option value="3" <?php echo isset($_GET['rating']) && $_GET['rating'] == '3' ? 'selected' : ''; ?>>3 sao</option>
+                            <option value="4" <?php echo isset($_GET['rating']) && $_GET['rating'] == '4' ? 'selected' : ''; ?>>4 sao</option>
+                            <option value="5" <?php echo isset($_GET['rating']) && $_GET['rating'] == '5' ? 'selected' : ''; ?>>5 sao</option>
+                        </select>
+                    </div>
+                </div>
+
                 <!-- Sắp xếp theo giá -->
                 <div class="col-md-4 col-12 position-relative">
                     <label for="sort" class="form-label fw-medium">Sắp xếp giá</label>
@@ -140,43 +158,50 @@
     </div>
 
     <!-- Hiển thị kết quả tìm kiếm -->
-    <?php if (isset($_GET['keyword']) || isset($_GET['category_id']) || isset($_GET['sort'])): ?>
-    <div class="alert alert-light shadow-sm mb-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <span class="fw-medium">Kết quả lọc:</span>
-                <?php if(isset($_GET['keyword']) && !empty($_GET['keyword'])): ?>
-                    <span class="badge bg-info text-dark ms-2">
-                        <i class="fas fa-search me-1"></i>
-                        <?php echo htmlspecialchars($_GET['keyword'], ENT_QUOTES, 'UTF-8'); ?>
-                    </span>
-                <?php endif; ?>
-                
-                <?php if(isset($_GET['category_id']) && !empty($_GET['category_id'])): 
-                    $categoryName = "Không xác định";
-                    foreach($categories as $category) {
-                        if($category->id == $_GET['category_id']) {
-                            $categoryName = $category->name;
-                            break;
+    <?php if (isset($_GET['keyword']) || isset($_GET['category_id']) || isset($_GET['sort']) || isset($_GET['rating'])): ?>
+        <div class="alert alert-light shadow-sm mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="fw-medium">Kết quả lọc:</span>
+                    <?php if(isset($_GET['keyword']) && !empty($_GET['keyword'])): ?>
+                        <span class="badge bg-info text-dark ms-2">
+                            <i class="fas fa-search me-1"></i>
+                            <?php echo htmlspecialchars($_GET['keyword'], ENT_QUOTES, 'UTF-8'); ?>
+                        </span>
+                    <?php endif; ?>
+                    
+                    <?php if(isset($_GET['category_id']) && !empty($_GET['category_id'])): 
+                        $categoryName = "Không xác định";
+                        foreach($categories as $category) {
+                            if($category->id == $_GET['category_id']) {
+                                $categoryName = $category->name;
+                                break;
+                            }
                         }
-                    }
-                ?>
-                    <span class="badge bg-secondary ms-2">
-                        <i class="fas fa-tag me-1"></i>
-                        <?php echo htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8'); ?>
-                    </span>
-                <?php endif; ?>
-                
-                <?php if(isset($_GET['sort']) && !empty($_GET['sort'])): ?>
-                    <span class="badge bg-warning text-dark ms-2">
-                        <i class="fas fa-sort-amount-<?php echo $_GET['sort'] == 'asc' ? 'up' : 'down'; ?> me-1"></i>
-                        <?php echo $_GET['sort'] == 'asc' ? 'Giá tăng dần' : 'Giá giảm dần'; ?>
-                    </span>
-                <?php endif; ?>
+                    ?>
+                        <span class="badge bg-secondary ms-2">
+                            <i class="fas fa-tag me-1"></i>
+                            <?php echo htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8'); ?>
+                        </span>
+                    <?php endif; ?>
+                    
+                    <?php if(isset($_GET['rating']) && !empty($_GET['rating'])): ?>
+                        <span class="badge bg-warning text-dark ms-2">
+                            <i class="fas fa-star me-1"></i>
+                            <?php echo htmlspecialchars($_GET['rating'], ENT_QUOTES, 'UTF-8'); ?> sao
+                        </span>
+                    <?php endif; ?>
+                    
+                    <?php if(isset($_GET['sort']) && !empty($_GET['sort'])): ?>
+                        <span class="badge bg-warning text-dark ms-2">
+                            <i class="fas fa-sort-amount-<?php echo $_GET['sort'] == 'asc' ? 'up' : 'down'; ?> me-1"></i>
+                            <?php echo $_GET['sort'] == 'asc' ? 'Giá tăng dần' : 'Giá giảm dần'; ?>
+                        </span>
+                    <?php endif; ?>
+                </div>
+                <span class="text-muted">Tìm thấy <strong><?php echo count($products); ?></strong> sản phẩm</span>
             </div>
-            <span class="text-muted">Tìm thấy <strong><?php echo count($products); ?></strong> sản phẩm</span>
         </div>
-    </div>
     <?php endif; ?>
 
     <!-- row-cols-1: 1 cột trên màn hình nhỏ (mobile)

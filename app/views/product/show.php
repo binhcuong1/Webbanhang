@@ -72,6 +72,62 @@
         </div>
     </div>
 
+    <!-- Hiển thị đánh giá -->
+    <div class="mt-5">
+    <h3 class="mb-3">
+        Đánh giá sản phẩm 
+        <?php 
+        $averageRating = $this->getAverageRating($product->id);
+        if ($averageRating == 0) {
+            echo '(Chưa có đánh giá)';
+        } else {
+            echo '(Trung bình: ' . $averageRating . ' ★)';
+        }
+        ?>
+    </h3>
+        
+        <?php
+        $reviews = $this->getReviews($product->id); // Gọi phương thức getReviews
+        if (empty($reviews)) {
+            echo '<p class="text-muted">Chưa có đánh giá nào cho sản phẩm này.</p>';
+        } else {
+            foreach ($reviews as $review) {
+                echo '<div class="border-bottom py-3">';
+                echo '<p><strong>' . htmlspecialchars($review->username) . '</strong> - ';
+                echo '<span class="text-warning">' . str_repeat('★', $review->rating) . str_repeat('☆', 5 - $review->rating) . '</span>';
+                echo '<small class="text-muted ms-2">' . date('d/m/Y H:i', strtotime($review->created_at)) . '</small></p>';
+                echo '<p>' . htmlspecialchars($review->comment) . '</p>';
+                echo '</div>';
+            }
+        }
+        ?>
+
+        <!-- Form đánh giá -->
+        <?php if (SessionHelper::isLoggedIn()): ?>
+            <form action="/webbanhang/Product/addReview" method="post" class="mt-4">
+                <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Đánh giá (1-5 sao):</label>
+                    <select name="rating" id="rating" class="form-select" required>
+                        <option value="" disabled selected>Chọn số sao</option>
+                        <option value="1">1 sao</option>
+                        <option value="2">2 sao</option>
+                        <option value="3">3 sao</option>
+                        <option value="4">4 sao</option>
+                        <option value="5">5 sao</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Bình luận:</label>
+                    <textarea name="comment" id="comment" class="form-control" rows="3" placeholder="Nhập bình luận của bạn..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+            </form>
+        <?php else: ?>
+            <p>Vui lòng <a href="/webbanhang/account/login">đăng nhập</a> để đánh giá sản phẩm.</p>
+        <?php endif; ?>
+    </div>
+
     <!-- Sản phẩm liên quan (tùy chọn) -->
     <?php if (!empty($relatedProducts)): ?>
         <div class="mt-5">
